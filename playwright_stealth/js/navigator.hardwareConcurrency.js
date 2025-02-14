@@ -5,4 +5,4 @@ const patchNavigator = (name, value) =>
         }
     })
 
-patchNavigator('hardwareConcurrency', opts.navigator_hardware_concurrency || 4);
+patchNavigator('hardwareConcurrency', opts.navigator_hardware_concurrency || 12);

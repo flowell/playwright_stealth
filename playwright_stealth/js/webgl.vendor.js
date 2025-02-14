@@ -4,11 +4,11 @@ const getParameterProxyHandler = {
         const param = (args || [])[0]
         // UNMASKED_VENDOR_WEBGL
         if (param === 37445) {
-            return opts.webgl_vendor || 'Intel Inc.' // default in headless: Google Inc.
+            return opts.webgl_vendor || 'Google Inc. (NVIDIA)' // default in headless
         }
         // UNMASKED_RENDERER_WEBGL
         if (param === 37446) {
-            return opts.webgl_renderer || 'Intel Iris OpenGL Engine' // default in headless: Google SwiftShader
+            return opts.webgl_renderer || 'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)' // default in headless
         }
         return utils.cache.Reflect.apply(target, ctx, args)
     }

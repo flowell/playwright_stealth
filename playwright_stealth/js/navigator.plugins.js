@@ -3,50 +3,49 @@ data = {
         {
             "type": "application/pdf",
             "suffixes": "pdf",
-            "description": "",
-            "__pluginName": "Chrome PDF Viewer"
+            "description": "Portable Document Format",
+            "__pluginName": "PDF Viewer"
         },
         {
-            "type": "application/x-google-chrome-pdf",
+            "type": "text/pdf",
             "suffixes": "pdf",
             "description": "Portable Document Format",
-            "__pluginName": "Chrome PDF Plugin"
-        },
-        {
-            "type": "application/x-nacl",
-            "suffixes": "",
-            "description": "Native Client Executable",
-            "__pluginName": "Native Client"
-        },
-        {
-            "type": "application/x-pnacl",
-            "suffixes": "",
-            "description": "Portable Native Client Executable",
-            "__pluginName": "Native Client"
+            "__pluginName": "PDF Viewer"
         }
     ],
     "plugins": [
         {
-            "name": "Chrome PDF Plugin",
+            "name": "PDF Viewer",
             "filename": "internal-pdf-viewer",
             "description": "Portable Document Format",
-            "__mimeTypes": ["application/x-google-chrome-pdf"]
+            "__mimeTypes": ["application/pdf", "text/pdf"]
         },
         {
             "name": "Chrome PDF Viewer",
-            "filename": "mhjfbmdgcfjbbpaeojofohoefgiehjai",
-            "description": "",
-            "__mimeTypes": ["application/pdf"]
+            "filename": "internal-pdf-viewer",
+            "description": "Portable Document Format",
+            "__mimeTypes": ["application/pdf", "text/pdf"]
         },
         {
-            "name": "Native Client",
-            "filename": "internal-nacl-plugin",
-            "description": "",
-            "__mimeTypes": ["application/x-nacl", "application/x-pnacl"]
+            "name": "Chromium PDF Viewer",
+            "filename": "internal-pdf-viewer",
+            "description": "Portable Document Format",
+            "__mimeTypes": ["application/pdf", "text/pdf"]
+        },
+        {
+            "name": "Microsoft Edge PDF Viewer",
+            "filename": "internal-pdf-viewer",
+            "description": "Portable Document Format",
+            "__mimeTypes": ["application/pdf", "text/pdf"]
+        },
+        {
+            "name": "WebKit built-in PDF",
+            "filename": "internal-pdf-viewer",
+            "description": "Portable Document Format",
+            "__mimeTypes": ["application/pdf", "text/pdf"]
         }
     ]
 }
-
 
 // That means we're running headful
 const hasPlugins = 'plugins' in navigator && navigator.plugins.length
@@ -71,12 +70,14 @@ if (!(hasPlugins)) {
         pluginData.__mimeTypes.forEach((type, index) => {
             plugins[pluginData.name][index] = mimeTypes[type]
             plugins[type] = mimeTypes[type]
-            Object.defineProperty(mimeTypes[type], 'enabledPlugin', {
-                value: JSON.parse(JSON.stringify(plugins[pluginData.name])),
-                writable: false,
-                enumerable: false, // Important: `JSON.stringify(navigator.plugins)`
-                configurable: false
-            })
+            if (!Object.getOwnPropertyDescriptor(mimeTypes[type], 'enabledPlugin')) {
+                Object.defineProperty(mimeTypes[type], 'enabledPlugin', {
+                    value: JSON.parse(JSON.stringify(plugins[pluginData.name])),
+                    writable: false,
+                    enumerable: false, // Important: `JSON.stringify(navigator.plugins)`
+                    configurable: false
+                })
+            }
         })
     }
 
